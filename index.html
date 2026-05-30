@@ -5,18 +5,811 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIREK | Automatización Inteligente en Selección de Personal</title>
     <meta name="description" content="SIREK transforma la gestión de talento humano a través de la automatización inteligente, reduciendo los tiempos de respuesta en un 60%.">
-    <link rel="stylesheet" href="css/estilos.css">
+    
+    <!-- Importación de Google Fonts: Montserrat para un acabado profesional -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           DEFINICIÓN DE VARIABLES Y PALETA DE COLORES DE MARCA (MODO CLARO)
+           ========================================================================== */
+        @font-face {
+            font-family: 'Azonix';
+            src: url('assets/fonts/Azonix-Regular.woff2') format('woff2'),
+                 url('assets/fonts/Azonix-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            /* Colores Oficiales del Manual de Marca */
+            --color-primary: #104792;       /* Azul Logotipo SIREK Principal */
+            --color-secondary: #154992;     /* Azul Isotipo e Institucional (Fondo) */
+            --color-text: #1a5fa0;          /* Corregido a un Hex de 6 dígitos válido (Azul corporativo) */
+            --color-accent: #059669;        /* Verde Esmeralda para Botones de Acción (CTA) */
+            --color-accent-hover: #047857;  /* Variante del botón */
+            --color-light: #f1f5f9;         /* Color de fondo alternativo claro */
+            --color-bg: #ffffff;            /* Fondo general del cuerpo */
+            --color-card-bg: #ffffff;       /* Fondo de las tarjetas individuales */
+            --color-border: #cbd5e1;        /* Color para separadores y bordes de formulario */
+            
+            /* Tipografías Oficiales */
+            --font-logo: 'Azonix', sans-serif;
+            --font-main: 'Montserrat', sans-serif;
+            
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==========================================================================
+           DEFINICIÓN DE VARIABLES PARA MODO OSCURO (DARK MODE)
+           ========================================================================== */
+        [data-theme="dark"] {
+            --color-bg: #0f172a;            /* Fondo general de la página (Oscuro Slate) */
+            --color-light: #1e293b;         /* Fondos alternativos de tarjetas y secciones */
+            --color-card-bg: #1e293b;       /* Fondo oscuro para las tarjetas */
+            --color-text: #cbd5e1;          /* Texto general en gris claro para alta legibilidad */
+            --color-primary: #38bdf8;       /* Celeste brillante de alta visibilidad para títulos en modo oscuro */
+            --color-secondary: #0ea5e9;     /* Variante para subtítulos y elementos de marca en la oscuridad */
+            --color-border: #475569;        /* Bordes sutiles oscuros */
+        }
+
+        /* ==========================================================================
+           ESTILOS BASE DEL SITIO
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        /* Títulos Generales Resueltos (Visibilidad Garantizada) */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--color-primary);
+            font-family: var(--font-main);
+            font-weight: 700;
+            line-height: 1.2;
+            transition: color 0.4s ease;
+        }
+
+        /* ==========================================================================
+           ESTILOS DE LA CABECERA (HEADER)
+           ========================================================================== */
+        .site-header {
+            background-color: var(--color-bg);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--color-border);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-text {
+            font-family: var(--font-logo);
+            font-size: 1.75rem;
+            font-weight: normal;
+            color: #104792; /* Color absoluto del Logotipo SIREK */
+            letter-spacing: 0.05em;
+        }
+
+        [data-theme="dark"] .logo-text {
+            color: #38bdf8; /* Azul claro de alta visibilidad para modo oscuro */
+        }
+
+        /* Navegación Principal */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .main-nav a:hover {
+            color: var(--color-primary);
+        }
+
+        .main-nav .btn-cta {
+            background-color: var(--color-primary);
+            color: #ffffff !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.375rem;
+            transition: var(--transition);
+        }
+
+        .main-nav .btn-cta:hover {
+            background-color: var(--color-accent);
+        }
+
+        /* ==========================================================================
+           INTERRUPTOR DE MODO CLARO / OSCURO (SWITCHER)
+           ========================================================================== */
+        .theme-toggle-btn {
+            background-color: var(--color-light);
+            border: 1px solid var(--color-border);
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--color-border);
+        }
+
+        /* Menú Hamburguesa Móvil */
+        .menu-toggle {
+            display: none;
+            font-size: 1.75rem;
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* ==========================================================================
+           SECCIÓN HERO
+           ========================================================================== */
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-light) 100%);
+            padding: 5rem 0;
+            transition: background 0.4s ease;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1.2;
+        }
+
+        .hero-content h1 {
+            font-size: 2.75rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--color-text);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Componentes de Botones */
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Bloque de Identidad Visual (Isotipo) */
+        .hero-visual {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brand-showcase {
+            background-color: #154992; /* Fondo Isotipo Oficial */
+            color: #ffffff !important;  /* Fuente blanca absoluta para el Isotipo */
+            padding: 4rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(21, 73, 146, 0.25);
+            width: 100%;
+            max-width: 380px;
+            transition: var(--transition);
+        }
+
+        .brand-showcase:hover {
+            transform: translateY(-5px);
+        }
+
+        .placeholder-logo {
+            font-family: var(--font-logo);
+            font-size: 3.5rem;
+            font-weight: normal;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-sub {
+            color: #ffffff;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 500;
+        }
+
+        /* ==========================================================================
+           SECCIÓN QUIÉNES SOMOS
+           ========================================================================== */
+        .about-section {
+            background-color: var(--color-bg);
+            transition: background-color 0.4s ease;
+        }
+
+        .section-title-block {
+            margin-bottom: 3.5rem;
+        }
+
+        .section-title-block.center {
+            text-align: center;
+        }
+
+        .section-title-block h2 {
+            font-size: 2.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--color-accent);
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+        }
+
+        .about-grid {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1.5;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--color-text);
+        }
+
+        .about-highlight {
+            flex: 1;
+        }
+
+        .highlight-box {
+            background-color: var(--color-light);
+            border-left: 5px solid var(--color-primary);
+            padding: 3rem 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .highlight-number {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            line-height: 1;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-label {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--color-text);
+        }
+
+        /* ==========================================================================
+           SECCIÓN QUÉ HACEMOS
+           ========================================================================== */
+        .philosophy-section {
+            background-color: var(--color-light);
+            transition: background-color 0.4s ease;
+        }
+
+        .cards-grid {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--color-card-bg);
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid var(--color-border);
+            flex: 1;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px -5px rgba(0,0,0,0.1);
+            border-color: var(--color-primary);
+        }
+
+        .card-icon {
+            font-size: 2.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--color-text);
+        }
+
+        /* ==========================================================================
+           SECCIÓN EL PROCESO OPERATIVO
+           ========================================================================== */
+        .process-section {
+            background-color: var(--color-bg);
+            transition: background-color 0.4s ease;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 1.5rem;
+            width: 3px;
+            background-color: var(--color-border);
+            z-index: 1;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-number {
+            background-color: var(--color-secondary);
+            color: #ffffff;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .timeline-content {
+            background-color: var(--color-light);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            border-color: var(--color-secondary);
+            transform: translateX(5px);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ==========================================================================
+           SECCIÓN VENTAJAS ESTRATÉGICAS
+           ========================================================================== */
+        .advantages-section {
+            background-color: var(--color-light);
+            transition: background-color 0.4s ease;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .advantage-item {
+            display: flex;
+            gap: 1.5rem;
+            background-color: var(--color-card-bg);
+            padding: 2.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--color-border);
+            transition: var(--transition);
+        }
+
+        .advantage-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-accent);
+        }
+
+        .adv-icon {
+            font-size: 2.25rem;
+            line-height: 1;
+        }
+
+        .advantage-item h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==========================================================================
+           SECCIÓN SEGURIDAD Y CUMPLIMIENTO
+           ========================================================================== */
+        .security-section {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            transition: background-color 0.4s ease;
+        }
+
+        .security-container h2 {
+            color: #ffffff !important; /* Siempre blanco por el fondo oscuro */
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .security-points {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .point {
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--color-accent);
+            transition: var(--transition);
+        }
+
+        .point:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .point strong {
+            display: block;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .point p {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================================================
+           SECCIÓN CONTACTO Y FORMULARIO
+           ========================================================================== */
+        .contact-section {
+            background-color: var(--color-bg);
+            transition: background-color 0.4s ease;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 5rem;
+        }
+
+        .contact-info, .contact-form-block {
+            flex: 1;
+        }
+
+        .contact-info h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--color-text);
+        }
+
+        .emails-block {
+            background-color: var(--color-light);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--color-secondary);
+        }
+
+        .emails-block p {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--color-primary);
+        }
+
+        .email-link {
+            display: block;
+            color: var(--color-secondary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .email-link:last-child {
+            margin-bottom: 0;
+        }
+
+        .email-link:hover {
+            color: var(--color-accent);
+            text-decoration: underline;
+        }
+
+        .contact-form {
+            background-color: var(--color-light);
+            padding: 3rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--color-border);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid var(--color-border);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            border-radius: 0.375rem;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(21, 73, 146, 0.15);
+        }
+
+        .full-width {
+            width: 100%;
+        }
+
+        .form-response-message {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ==========================================================================
+           PIE DE PÁGINA (FOOTER) Y WHATSAPP FLOTANTE
+           ========================================================================== */
+        .site-footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2.5rem 0;
+            border-top: 1px solid #1e293b;
+        }
+
+        .site-footer p {
+            font-size: 0.95rem;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #25d366;
+            color: white;
+            width: 3.75rem;
+            height: 3.75rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            z-index: 999;
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: var(--transition);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        /* ==========================================================================
+           SOPORTE RESPONSIVO ADICIONAL (MEDIA QUERIES)
+           ========================================================================== */
+        @media (max-width: 968px) {
+            .hero-container, .about-grid, .cards-grid, .contact-container, .security-points {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                width: 100%;
+            }
+
+            .brand-showcase {
+                max-width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--color-bg);
+                flex-direction: column;
+                padding: 2rem 0;
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+                border-bottom: 1px solid var(--color-border);
+                gap: 1.5rem;
+                z-index: 998;
+            }
+
+            .main-nav.active {
+                display: flex;
+            }
+
+            .main-nav a {
+                margin: 0;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- ==========================================================================
+         SECCIÓN 1: CABECERA Y NAVEGACIÓN (HEADER)
+         ========================================================================== -->
     <header class="site-header">
         <div class="container header-container">
-            <div class="logo">
+            <div class="logo-block">
                 <span class="logo-text">SIREK</span>
             </div>
+            
+            <!-- Barra de Navegación -->
             <nav class="main-nav" id="mainNav">
                 <a href="#inicio">Inicio</a>
                 <a href="#quienes-somos">Quiénes Somos</a>
@@ -25,23 +818,37 @@
                 <a href="#ventajas">Ventajas</a>
                 <a href="#contacto" class="btn-cta">Solicitar Demo</a>
             </nav>
-            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- NUEVO: Interruptor del Modo Claro/Oscuro -->
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambiar modo de color">
+                    <span class="mode-icon">🌙</span>
+                </button>
+                
+                <!-- Menú hamburguesa responsivo -->
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+            </div>
         </div>
     </header>
 
     <main>
+        <!-- ==========================================================================
+             SECCIÓN 2: PRINCIPAL / IMPACTO (HERO SECTION)
+             ========================================================================== -->
         <section id="inicio" class="hero-section">
             <div class="container hero-container">
                 <div class="hero-content">
                     <h1>¿Buscas agilidad y ahorro en tus contrataciones?</h1>
-                    <p class="hero-tagline">SIREK es el software de automatización que tu empresa necesita para modernizar sus procesos de selección.</p>
+                    <p class="hero-tagline">SIREK es el software de automatización que tu empresa necesita.</p>
                     <p class="hero-description">Al integrar procesos inteligentes, logramos que tu departamento de Recursos Humanos sea un 60% más rápido, garantizando la máxima seguridad en el manejo de datos.</p>
                     <div class="hero-actions">
                         <a href="#contacto" class="btn btn-primary">Agendar Asesoría Gratuita</a>
                         <a href="#proceso" class="btn btn-secondary">Conocer el Proceso</a>
                     </div>
                 </div>
+                
                 <div class="hero-visual">
+                    <!-- Isotipo oficial SIREK (#154992 con tipografía geométrica blanca) -->
                     <div class="brand-showcase">
                         <div class="placeholder-logo">SIREK</div>
                         <p class="showcase-sub">Automatización Inteligente</p>
@@ -50,27 +857,33 @@
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 3: QUIÉNES SOMOS (SOBRE KIVNON & SIREK)
+             ========================================================================== -->
         <section id="quienes-somos" class="about-section">
             <div class="container">
                 <div class="section-title-block">
                     <span class="subtitle">Quiénes Somos</span>
-                    <h2>Tecnología de Vanguardia para el Siglo XXI</h2>
+                    <h2>Tecnología de Vanguardia para el Reclutamiento</h2>
                 </div>
                 <div class="about-grid">
                     <div class="about-text">
-                        <p>En <strong>Kivnon Consultores</strong> hemos creado <strong>SIREK</strong>, una plataforma indispensable diseñada para transformar y modernizar la selección de personal.</p>
-                        <p>Nuestra arquitectura intuitiva democratiza el proceso de selección: permite que cualquier integrante del equipo de RR.HH. ejecute procesos precisos y validados de forma autónoma. Al eliminar la dependencia constante de especialistas externos o intervenciones psicológicas, maximizamos la eficiencia operativa y minimizamos drásticamente los costos de contratación.</p>
+                        <p>En <strong>Kivnon Consultores</strong> hemos creado <strong>SIREK</strong>, una plataforma indispensable para la modernización de los procesos de selección.</p>
+                        <p>Nuestra arquitectura intuitiva democratiza el proceso de selección, permitiendo que cualquier integrante del equipo de RR.HH. ejecute procesos precisos y validados. Al eliminar la dependencia de especialistas externos o intervenciones psicológicas constantes, SIREK maximiza la eficiencia operativa y minimiza los costos de contratación.</p>
                     </div>
                     <div class="about-highlight">
                         <div class="highlight-box">
                             <span class="highlight-number">60%</span>
-                            <p class="highlight-label">Reducción en tiempos de respuesta bajo estrictos protocolos de seguridad digital.</p>
+                            <p class="highlight-label">Optimización en tiempos de respuesta garantizando máxima seguridad digital.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 4: QUÉ HACEMOS (FILOSOFÍA Y PROPÓSITO)
+             ========================================================================== -->
         <section id="que-hacemos" class="philosophy-section">
             <div class="container">
                 <div class="section-title-block center">
@@ -81,26 +894,29 @@
                     <div class="card">
                         <div class="card-icon">🧠</div>
                         <h3>Integración Psicotécnica</h3>
-                        <p>Un sistema integral que combina de forma óptima la experiencia psicológica con la automatización tecnológica para perfeccionar el reclutamiento.</p>
+                        <p>Un sistema integral que combina de forma óptima la experiencia psicológica corporativa con la automatización tecnológica moderna.</p>
                     </div>
                     <div class="card">
                         <div class="card-icon">📊</div>
                         <h3>Decisiones Basadas en Datos</h3>
-                        <p>Actúa como una herramienta de decisión fundamentada y respaldada por datos predeterminados por expertos en psicología organizacional.</p>
+                        <p>Actúa como una herramienta de decisión fundamentada en datos psicométricos predeterminados por expertos en psicología organizacional.</p>
                     </div>
                     <div class="card">
                         <div class="card-icon">⚡</div>
                         <h3>Origen y Dinamismo</h3>
-                        <p>Nuestro nombre proviene del griego <em>kimisi</em> ("movimiento"), reflejando fielmente la velocidad y evolución del mercado laboral actual.</p>
+                        <p>El nombre proviene del griego <em>kimisi</em> ("movimiento"), reflejando el dinamismo y velocidad del mercado laboral moderno.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 5: EL PROCESO OPERATIVO (3 ETAPAS)
+             ========================================================================== -->
         <section id="proceso" class="process-section">
             <div class="container">
                 <div class="section-title-block center">
-                    <span class="subtitle">Flujo de Trabajo</span>
+                    <span class="subtitle">Estructura Operativa</span>
                     <h2>El Proceso Operativo en 3 Etapas</h2>
                 </div>
                 <div class="timeline">
@@ -108,31 +924,34 @@
                         <div class="timeline-number">1</div>
                         <div class="timeline-content">
                             <h3>Etapa 1: Configuración</h3>
-                            <p>Realizamos un levantamiento del perfil del cargo y competencias técnicas junto a la empresa mandante, parametrizando descriptores y preguntas específicas en la plataforma.</p>
+                            <p>Realizamos un levantamiento del perfil del cargo y competencias técnicas junto a la empresa mandante, parametrizando descriptores y preguntas específicas en el núcleo del sistema.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-number">2</div>
                         <div class="timeline-content">
                             <h3>Etapa 2: Filtrado Multinivel</h3>
-                            <p>El sistema utiliza un embudo automatizado con encuestas primarias (requisitos básicos) y técnicas (conocimientos duros) que califican instantáneamente a los candidatos.</p>
+                            <p>El sistema utiliza un embudo automatizado con encuestas primarias (requisitos de postulación básicos) y encuestas técnicas (conocimientos duros) que califican instantáneamente a los candidatos.</p>
                         </div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-number">3</div>
                         <div class="timeline-content">
                             <h3>Etapa 3: Evaluación y Diagnóstico</h3>
-                            <p>Aplica la metodología DISC para medir dimensiones de personalidad y genera un informe de viabilidad que cruza automáticamente resultados técnicos y habilidades blandas.</p>
+                            <p>Aplica la metodología DISC para medir dimensiones clave de personalidad y genera un informe de viabilidad que cruza eficientemente resultados técnicos y habilidades blandas.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 6: VENTAJAS ESTRATÉGICAS
+             ========================================================================== -->
         <section id="ventajas" class="advantages-section">
             <div class="container">
                 <div class="section-title-block">
-                    <span class="subtitle">Beneficios</span>
+                    <span class="subtitle">Ventajas</span>
                     <h2>Ventajas Estratégicas y Eficiencia</h2>
                 </div>
                 <div class="advantages-grid">
@@ -140,67 +959,77 @@
                         <span class="adv-icon">⏱️</span>
                         <div>
                             <h4>Velocidad de Respuesta</h4>
-                            <p>Logra una reducción de los tiempos de selección de hasta un 60% gracias a sus filtros avanzados de valoración automática.</p>
+                            <p>Logra una reducción de los tiempos de selección de hasta un 60% gracias a sus filtros automatizados.</p>
                         </div>
                     </div>
                     <div class="advantage-item">
                         <span class="adv-icon">👥</span>
                         <div>
                             <h4>Optimización del Capital Humano</h4>
-                            <p>Permite que cualquier integrante de RR.HH. ejecute procesos precisos sin depender de psicólogos de planta o consultoría externa constante.</p>
+                            <p>Permite que cualquier integrante de RR.HH. ejecute procesos precisos sin depender de consultorías externas costosas.</p>
                         </div>
                     </div>
                     <div class="advantage-item">
                         <span class="adv-icon">🧠</span>
                         <div>
                             <h4>Memoria Institucional</h4>
-                            <p>Posee una base de datos inteligente que registra y permite "reciclar" candidatos ya evaluados para futuras vacantes, reduciendo costos adicionales.</p>
+                            <p>Posee una base de datos inteligente que registra y permite reciclar candidatos ya evaluados para futuras vacantes.</p>
                         </div>
                     </div>
                     <div class="advantage-item">
                         <span class="adv-icon">🚀</span>
                         <div>
                             <h4>Autonomía Operativa</h4>
-                            <p>Transforma el levantamiento técnico en un proceso autónomo de filtrado que entrega un "producto terminado" a través de un informe de viabilidad.</p>
+                            <p>Transforma el levantamiento técnico en un proceso autónomo que entrega informes listos para toma de decisión definitiva.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 7: SEGURIDAD Y CUMPLIMIENTO
+             ========================================================================== -->
         <section class="security-section">
             <div class="container security-container">
-                <div class="security-content">
-                    <span class="subtitle light">Confianza Corporativa</span>
-                    <h2>Seguridad Blindada y Cumplimiento</h2>
-                    <div class="security-points">
-                        <div class="point">
-                            <strong>🔒 Acceso Jerarquizado:</strong> Implementa un estricto protocolo mediante claves únicas para la supervisión en línea en tiempo real.
-                        </div>
-                        <div class="point">
-                            <strong>⚖️ Rigor Ético:</strong> La custodia de los resultados psicométricos se maneja bajo los más altos estándares éticos de un software desarrollado por psicólogos.
-                        </div>
-                        <div class="point">
-                            <strong>📝 Marco Legal:</strong> Facilita el cumplimiento estricto de las normativas de no discriminación y leyes laborales chilenas vigentes.
-                        </div>
+                <span class="subtitle light">Privacidad</span>
+                <h2>Seguridad Blindada y Rigor Normativo</h2>
+                <div class="security-points">
+                    <div class="point">
+                        <strong>Seguridad Blindada</strong>
+                        <p>Implementa un riguroso protocolo con accesos jerarquizados mediante claves únicas para supervisión en línea en tiempo real.</p>
+                    </div>
+                    <div class="point">
+                        <strong>Rigor Ético</strong>
+                        <p>La custodia de los resultados psicométricos se maneja bajo estrictos estándares éticos de un software desarrollado por psicólogos organizacionales.</p>
+                    </div>
+                    <div class="point">
+                        <strong>Marco Legal</strong>
+                        <p>Facilita el cumplimiento de normativas de no discriminación y leyes laborales chilenas vigentes al gestionar filtros técnicos.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ==========================================================================
+             SECCIÓN 8: CONTACTO
+             ========================================================================== -->
         <section id="contacto" class="contact-section">
             <div class="container contact-container">
                 <div class="contact-info">
-                    <h2>Moderniza tu gestión hoy</h2>
-                    <p>Escríbenos para solicitar una demostración personalizada del sistema o resolver tus dudas operativas.</p>
+                    <h2>Moderniza tus procesos hoy</h2>
+                    <p>Contáctanos para programar una demo interactiva o solicitar una cotización adaptada a las vacantes de tu organización.</p>
+                    
                     <div class="emails-block">
-                        <p><strong>Correos de contacto oficial:</strong></p>
+                        <p>Contacto Corporativo Oficial:</p>
                         <a href="mailto:contacto@kivnonconsultores.cl" class="email-link">contacto@kivnonconsultores.cl</a>
                         <a href="mailto:fmora@kivnonconsultores.cl" class="email-link">fmora@kivnonconsultores.cl</a>
                     </div>
                 </div>
+                
                 <div class="contact-form-block">
-                    <form id="contactForm" action="#" method="POST" class="contact-form">
+                    <!-- Integración con Formsubmit.co como procesador confiable para hosting Tecnoinver -->
+                    <form id="contactForm" action="enviar.php" method="POST" class="contact-form">
                         <div class="form-group">
                             <label for="name">Nombre Completo</label>
                             <input type="text" id="name" name="name" placeholder="Ej. Claudio Serrano" required>
@@ -211,7 +1040,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message">Mensaje / Requerimiento</label>
-                            <textarea id="message" name="message" rows="4" placeholder="¿En qué podemos ayudarte?" required></textarea>
+                            <textarea id="message" name="message" rows="4" placeholder="¿Cómo podemos ayudarte?" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary full-width">Enviar Solicitud</button>
                     </form>
@@ -222,15 +1051,92 @@
     </main>
 
     <footer class="site-footer">
-        <div class="container footer-bottom">
+        <div class="container">
             <p>&copy; 2026 SIREK Chile. Desarrollado por Kivnon Consultores. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
-    
-    <a href="https://wa.me/56977581735" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contacto por WhatsApp">
+    <!-- Botón flotante de WhatsApp comercial -->
+    <a href="https://wa.me/569XXXXXXXX" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contacto por WhatsApp">
         <span class="wa-icon">💬</span>
     </a>
+
+    <!-- ==========================================================================
+         CÓDIGO DE INTERACTIVIDAD Y SEGUIMIENTO (JAVASCRIPT)
+         ========================================================================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ==========================================
+            // 1. MANEJO DEL INTERRUPTOR DE MODO OSCURO
+            // ==========================================
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const modeIcon = themeToggleBtn ? themeToggleBtn.querySelector('.mode-icon') : null;
+
+            if (themeToggleBtn && modeIcon) {
+                // Consultar persistencia en memoria del navegador
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    modeIcon.textContent = '☀️'; // Muestra sol si está activo el modo oscuro
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    modeIcon.textContent = '🌙'; // Muestra luna en modo claro
+                }
+
+                // Event listener para el clic
+                themeToggleBtn.addEventListener('click', () => {
+                    if (document.documentElement.getAttribute('data-theme') !== 'dark') {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        modeIcon.textContent = '☀️';
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        modeIcon.textContent = '🌙';
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+
+            // ==========================================
+            // 2. MENÚ RESPONSIVO MÓVIL
+            // ==========================================
+            const menuToggle = document.getElementById('menuToggle');
+            const mainNav = document.getElementById('mainNav');
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    menuToggle.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
+                });
+
+                // Cierre del menú al pulsar enlaces internos
+                const navLinks = mainNav.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mainNav.classList.remove('active');
+                        menuToggle.textContent = '☰';
+                    });
+                });
+            }
+
+            // ==========================================
+            // 3. RESPUESTA AL ENVIAR FORMULARIO
+            // ==========================================
+            const contactForm = document.getElementById('contactForm');
+            const formResponse = document.getElementById('formResponse');
+
+            if (contactForm && formResponse) {
+                // Al estar vinculándolo al "enviar.php" de tu hosting o API, 
+                // permitimos el envío nativo pero mostramos la animación de espera en pantalla.
+                contactForm.addEventListener('submit', () => {
+                    formResponse.style.display = 'block';
+                    formResponse.style.backgroundColor = '#d1fae5';
+                    formResponse.style.color = '#065f46';
+                    formResponse.textContent = 'Enviando tu solicitud de demo a Kivnon Consultores...';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

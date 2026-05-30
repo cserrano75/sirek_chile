@@ -58,6 +58,63 @@ body {
     padding: 4rem 0;
 }
 
+/* ==========================================================================
+   CONFIGURACIÓN DE MODO OSCURO (DARK MODE)
+   ========================================================================== */
+
+/* Variables para el Modo Oscuro */
+[data-theme="dark"] {
+    --color-light: #1e293b;         /* Fondos que eran claros ahora son gris oscuro */
+    --color-text: #cbd5e1;          /* El texto general pasa a gris claro para lectura */
+    background-color: #0f172a;     /* El fondo de la página pasa a ser oscuro */
+    
+    /* Ajustamos el azul primario en modo oscuro para que tenga mejor contraste */
+    --color-primary: #38bdf8;       /* Un azul celeste brillante para que resalte en la oscuridad */
+}
+
+/* Estilos para el botón del switch */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+    background-color: rgba(16, 71, 146, 0.1);
+}
+
+/* Cambios estructurales automáticos cuando se activa el modo oscuro */
+[data-theme="dark"] body {
+    background-color: #0f172a;
+}
+
+[data-theme="dark"] .site-header,
+[data-theme="dark"] .card,
+[data-theme="dark"] .advantage-item,
+[data-theme="dark"] .contact-form {
+    background-color: #1e293b; /* Tarjetas y cabecera se oscurecen */
+    color: #f8fafc;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .main-nav {
+    background-color: #1e293b; /* Menú móvil desplegable en modo oscuro */
+}
+
+[data-theme="dark"] .form-group input, 
+[data-theme="dark"] .form-group textarea {
+    background-color: #0f172a;
+    color: #ffffff;
+    border-color: #475569;
+}
+
 /* 2. COMPONENTES REUTILIZABLES (BOTONES Y TÍTULOS) */
 .btn {
     display: inline-block;
@@ -100,11 +157,20 @@ body {
     text-align: center;
 }
 
-.section-title-block h2 {
+/* .section-title-block h2 {
     font-size: 2.25rem;
     color: var(--color-primary);
     margin-top: 0.5rem;
     font-weight: 700;
+} */
+
+/* Corrección de visibilidad para todos los títulos de sección */
+.section-title-block h2, 
+.hero-content h1,
+h2, h3, h4 {
+    color: var(--color-primary) !important; /* Fuerza el Azul #104792 */
+    font-family: var(--font-main);
+    display: block; /* Asegura que no esté oculto por un display: none */
 }
 
 .subtitle {
