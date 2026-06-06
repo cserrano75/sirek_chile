@@ -45,7 +45,7 @@
             --font-logo: 'Azonix', sans-serif;
             --font-main: 'Montserrat', sans-serif;
             
-            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.25s ease-in-out;
         }
 
         /* ==========================================================================
@@ -127,31 +127,13 @@
             text-decoration: none;
         }
 
-        /* Ajuste para el nuevo logo integrado */
-        .brand-logo-img {
-            height: 45px;       /* Altura ideal para la barra de navegación */
-            width: auto;
-            display: block;
-            transition: var(--transition);
-        }
-
-        .brand-showcase .brand-logo-img {
-            height: 65px;       /* Un poco más grande para la tarjeta azul del Hero */
-            margin-bottom: 0.5rem;
-        }
-
-        /* Filtro opcional para que resalte en fondos oscuros si es necesario */
-        [data-theme="dark"] .site-header .brand-logo-img {
-            filter: brightness(1.2); 
-        }
-
         /* Isotipo vectorial K integrado */
-        .logo-svg {
+/*         .logo-svg {
             width: 32px;
             height: 32px;
             color: var(--color-primary);
             transition: color 0.4s ease;
-        }
+        } */
 
         .logo-text {
             font-family: var(--font-logo);
@@ -166,19 +148,55 @@
         .main-nav {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1.75rem;
         }
 
+        /* Estilo base de los enlaces del menú */
         .main-nav a {
             color: var(--color-text);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 0.95rem;
+            position: relative;
+            padding: 0.25rem 0;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
             transition: var(--transition);
+        }
+
+        /* Evita el "salto/desplazamiento" del menú al ponerse en negrita */
+        .main-nav a::after {
+            display: block;
+            content: attr(data-text);
+            font-weight: 700;
+            height: 0;
+            overflow: hidden;
+            visibility: hidden;
         }
 
         .main-nav a:hover {
             color: var(--color-primary);
+        }
+
+        /* ==========================================================================
+           ESTILO DEL ENLACE SELECCIONADO (ACTIVO - BOLD & ACCENT COLOR)
+           ========================================================================== */
+        .main-nav a.active {
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        /* Línea decorativa inferior sutil para la pestaña seleccionada */
+        .main-nav a.active::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--color-accent);
+            border-radius: 2px;
         }
 
         .main-nav .btn-cta {
@@ -186,11 +204,16 @@
             color: #ffffff !important;
             padding: 0.5rem 1.25rem;
             border-radius: 0.375rem;
+            font-weight: 600;
             transition: var(--transition);
         }
 
         .main-nav .btn-cta:hover {
             background-color: var(--color-accent);
+        }
+
+        .main-nav .btn-cta.active::before {
+            display: none; /* No aplicar línea inferior al botón de acción */
         }
 
         /* ==========================================================================
@@ -943,25 +966,17 @@
          ========================================================================== -->
     <header class="site-header">
         <div class="container header-container">
-            <a href="#inicio" class="logo-block">
-                <!-- Isotipo K Vectorial oficial en SVG -- Modificado por Logotipo integrado>
-<!--                 <svg class="logo-svg" viewBox="0 0 200 200">
-                    <path d="M 40 10 L 75 10 L 75 190 L 40 190 Z" fill="currentColor" />
-                    <path d="M 75 120 L 155 40 L 190 40 L 105 125 L 185 190 L 150 190 L 75 120" fill="currentColor" />
-                </svg>
-                <span class="logo-text">SIREKK</span> -->
-                
-                <!-- Agrego logotipo integrado -->
-                <img src="logo.png" alt="SIREK Logo" class="brand-logo-img">
-            </a>
+                <a href="#inicio" class="logo-block">
+                    <img src="logo.png" alt="SIREK Logo" class="brand-logo-img">
+                </a>
             
-            <!-- Barra de Navegación -->
+            <!-- Barra de Navegación (Atributo 'data-text' previene saltos de layout al cambiar a BOLD) -->
             <nav class="main-nav" id="mainNav">
-                <a href="#inicio">Inicio</a>
-                <a href="#quienes-somos">Quiénes Somos</a>
-                <a href="#que-hacemos">Qué Hacemos</a>
-                <a href="#proceso">Proceso</a>
-                <a href="#ventajas">Ventajas</a>
+                <a href="#inicio" class="active" data-text="Inicio">Inicio</a>
+                <a href="#quienes-somos" data-text="Quiénes Somos">Quiénes Somos</a>
+                <a href="#que-hacemos" data-text="Qué Hacemos">Qué Hacemos</a>
+                <a href="#proceso" data-text="Proceso">Proceso</a>
+                <a href="#ventajas" data-text="Ventajas">Ventajas</a>
                 <a href="#contacto" class="btn-cta">Solicitar Demo</a>
             </nav>
 
@@ -1004,7 +1019,7 @@
                     <!-- Cuadro Derecho: Tarjeta de Especificación Técnica Expandida -->
                     <div class="brand-showcase">
                         <div class="showcase-header" style="display: flex; justify-content: center; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.15); margin-bottom: 1.5rem;">
-                            <img src="logo.png" alt="SIREK" class="brand-logo-img" style="height: 60px; width: auto; filter: brightness(0) invert(1);">
+                            <img src="logo.png" alt="SIREK" class="brand-logo-img">
                         </div>
                         <div class="showcase-body">
                             <p>Una solución tecnológica de vanguardia de Kivnon Consultores, diseñada para optimizar la gestión de talento humano bajo los más estrictos protocolos de seguridad digital.</p>
@@ -1233,7 +1248,7 @@
             // CONFIGURACIÓN DINÁMICA DEL BOTÓN DE WHATSAPP (KIVNON)
             // ==========================================================================
             const CONFIG_WHATSAPP = {
-                telefono: "56977581735", // Reemplazar por tu número oficial de Chile (sin el +)
+                telefono: "56936836750", // Reemplazar por tu número oficial de Chile (sin el +)
                 mensaje: "Hola Kivnon Consultores, me gustaría obtener más información y coordinar una demo de la plataforma SIREK para mi empresa."
             };
 
@@ -1297,8 +1312,23 @@
                 });
             }
 
+            // ==========================================
+            // 3. SELECCIÓN VISUAL DEL MENÚ (CLICK & BOLD STATE)
+            // ==========================================
+            const navLinks = document.querySelectorAll('.main-nav a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Remover clase activa de todos los enlaces del menú
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    
+                    // Añadir clase activa solo al enlace seleccionado
+                    link.classList.add('active');
+                });
+            });
+
             // ==========================================================================
-            // 3. ENVÍO INTELIGENTE Y ASÍNCRONO DEL FORMULARIO DE CONTACTO (AJAX / FETCH)
+            // 4. ENVÍO INTELIGENTE Y ASÍNCRONO DEL FORMULARIO DE CONTACTO (AJAX / FETCH)
             // ==========================================================================
             const contactForm = document.getElementById('contactForm');
             const formResponse = document.getElementById('formResponse');
@@ -1359,7 +1389,7 @@
                 
                 // Restaurar estado del botón
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Solicitud Enviada';
+                submitBtn.textContent = 'Solicitud Sent';
                 
                 // Limpiar campos para un nuevo envío
                 contactForm.reset();
