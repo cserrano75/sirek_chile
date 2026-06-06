@@ -957,6 +957,34 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* ==========================================================================
+        PARCHE DE SEGURIDAD PARA LOGOS (FUERZA TAMAÑO Y TRANSPARENCIA)
+        ========================================================================== */
+
+        /* 1. Logo del Header en Modo Claro (Pequeño y elegante) */
+        .brand-logo-img {
+            height: 100px !important;
+            width: auto !important;
+            display: block !important;
+            object-fit: contain !important;
+        }
+
+        /* 2. Logo del Header en Modo Oscuro (Letras blancas sin fondo) */
+        [data-theme="dark"] .site-header .brand-logo-img {
+            filter: invert(1) grayscale(1) brightness(2) contrast(2) !important;
+            mix-blend-mode: screen !important;
+        }
+
+        /* 3. Logo del Bloque Hero - Tarjeta Azul (Grande y centrado) */
+        .showcase-header .brand-logo-img {
+            height: 100px !important;
+            width: auto !important;
+            display: block !important;
+            margin: 0 auto !important;
+            filter: invert(1) grayscale(1) brightness(2) contrast(2) !important;
+            mix-blend-mode: screen !important;
+        }
     </style>
 </head>
 <body>

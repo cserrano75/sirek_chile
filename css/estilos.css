@@ -104,7 +104,7 @@ h1, h2, h3, h4 {
 
 /* 3. Logo del Bloque Hero - Tarjeta Azul (Blanco flotante en Modo Claro y Oscuro) */
 .showcase-header .brand-logo-img {
-    height: 85px !important; /* Mantiene el tamaño proporcional grande */
+    height: 85px !important;
     width: auto;
     display: block;
     margin: 0 auto;
