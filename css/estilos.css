@@ -58,6 +58,12 @@ body {
     padding: 4rem 0;
 }
 
+.brand-logo-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* ==========================================================================
    CONFIGURACIÓN DE MODO OSCURO (DARK MODE)
    ========================================================================== */
@@ -284,6 +290,15 @@ h2, h3, h4 {
 }
 
 /* Bloque institucional basado en las directrices del Isotipo */
+
+/* Control estricto del tamaño de la imagen del logo */
+.brand-logo-img {
+    height: 40px; /* Altura controlada para la barra superior */
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .brand-showcase {
     background-color: var(--color-secondary);
     color: #ffffff;
