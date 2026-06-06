@@ -127,6 +127,24 @@
             text-decoration: none;
         }
 
+        /* Ajuste para el nuevo logo integrado */
+        .brand-logo-img {
+            height: 45px;       /* Altura ideal para la barra de navegación */
+            width: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .brand-showcase .brand-logo-img {
+            height: 65px;       /* Un poco más grande para la tarjeta azul del Hero */
+            margin-bottom: 0.5rem;
+        }
+
+        /* Filtro opcional para que resalte en fondos oscuros si es necesario */
+        [data-theme="dark"] .site-header .brand-logo-img {
+            filter: brightness(1.2); 
+        }
+
         /* Isotipo vectorial K integrado */
         .logo-svg {
             width: 32px;
@@ -926,12 +944,15 @@
     <header class="site-header">
         <div class="container header-container">
             <a href="#inicio" class="logo-block">
-                <!-- Isotipo K Vectorial oficial en SVG -->
-                <svg class="logo-svg" viewBox="0 0 200 200">
+                <!-- Isotipo K Vectorial oficial en SVG -- Modificado por Logotipo integrado>
+<!--                 <svg class="logo-svg" viewBox="0 0 200 200">
                     <path d="M 40 10 L 75 10 L 75 190 L 40 190 Z" fill="currentColor" />
                     <path d="M 75 120 L 155 40 L 190 40 L 105 125 L 185 190 L 150 190 L 75 120" fill="currentColor" />
                 </svg>
-                <span class="logo-text">SIREK</span>
+                <span class="logo-text">SIREKK</span> -->
+                
+                <!-- Agrego logotipo integrado -->
+                <img src="logo.png" alt="SIREK Logo" class="brand-logo-img">
             </a>
             
             <!-- Barra de Navegación -->
@@ -989,8 +1010,9 @@
                                 <path d="M 75 120 L 155 40 L 190 40 L 105 125 L 185 190 L 150 190 L 75 120" fill="currentColor" />
                             </svg>
                             <div class="showcase-title-block">
-                                <div class="showcase-brand">SIREK</div>
-                                <div class="showcase-sub">Automatización Inteligente</div>
+<!--                            <div class="showcase-brand">SIREKS</div>
+                                <div class="showcase-sub">Automatización Inteligente</div> -->
+                                <img src="logo.png" alt="SIREK" class="brand-logo-img" style="filter: brightness(0) invert(1);">
                             </div>
                         </div>
                         <div class="showcase-body">
